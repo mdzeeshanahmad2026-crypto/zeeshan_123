@@ -423,3 +423,21 @@ for(var si=0;si<swatches.length;si++){(function(el){el.addEventListener('click',
 var diffBtns=document.querySelectorAll('.diff-btn');
 for(var di=0;di<diffBtns.length;di++){(function(el){el.addEventListener('click',function(){ensureAudio();playClick();for(var j=0;j<diffBtns.length;j++)diffBtns[j].classList.remove('selected');el.classList.add('selected');difficulty=el.getAttribute('data-diff');});})(diffBtns[di]);}
 document.addEventListener('visibilitychange',function(){if(document.hidden&&gameState==='playing')pauseGame();});
+document.addEventListener('pointerdown',function(){ensureAudio();},{passive:true});
+
+function resize(){var vw=window.innerWidth,vh=window.innerHeight;var aspect=W/H;var availW=vw,availH=vh;var cw,ch;if(availW/availH>aspect){ch=availH;cw=ch*aspect;}else{cw=availW;ch=cw/aspect;}if(ch>900){ch=900;cw=ch*aspect;}if(cw>560){cw=560;ch=cw/aspect;}if(ch>vh){ch=vh;cw=ch*aspect;}canvas.style.width=cw+'px';canvas.style.height=ch+'px';gameContainer.style.width=cw+'px';gameContainer.style.height=ch+'px';}
+window.addEventListener('resize',resize);
+window.addEventListener('orientationchange',function(){setTimeout(resize,200);});
+
+highScoreDisplay.textContent=highScore;
+if(isTouch){autoGas=true;}else{autoGas=true;}
+updateAutoGasBtn();updateNightButtons();updateMuteButtons();updateMobileVisibility();resize();
+
+var lastTime=performance.now();
+function loop(now){requestAnimationFrame(loop);var dt=(now-lastTime)/1000;lastTime=now;if(dt>0.05)dt=0.05;if(dt<0)dt=0;update(dt);render();}
+requestAnimationFrame(loop);
+setTimeout(resize,100);
+})();
+</script>
+</body>
+</html>
